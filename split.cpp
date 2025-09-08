@@ -11,13 +11,33 @@ the function below should be the only one in this file.
 */
 
 #include "split.h"
-
+#include <cstddef>
 /* Add a prototype for a helper function here if you need */
+Node* attach(Node*& list, Node* node);
 
-void split(Node*& in, Node*& odds, Node*& evens)
-{
+void split(Node*& in, Node*& odds, Node*& evens) {
   /* Add code here */
 // WRITE YOUR CODE HERE
+  if (in == NULL) return;
+
+  Node* curr = in;
+  Node* next = curr -> next;
+  curr -> next = NULL;
+  
+  if (in -> value % 2 == 0) attach(evens, in);
+  else attach(odds, in);
+
+  split(next, odds, evens);
+  in = NULL;
 }
 
 /* If you needed a helper function, write it here */
+Node* attach(Node*& list, Node* node) {
+  if (list == NULL) {
+    list = node;
+    node -> next = NULL;
+  }
+  else {
+    attach(list -> next, node);
+  }
+}
